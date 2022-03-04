@@ -1,0 +1,60 @@
+---
+output:
+  word_document: default
+  html_document: default
+editor_options:
+  chunk_output_type: console
+---
+### Module 1 Assignment 2
+### Claire Alt
+
+```{r Task 1 2 and 3}
+library(tidyverse)
+view(diamonds)
+diamonddata = diamonds
+
+ggplot(data=diamonddata, aes(x=carat, y=price)) +
+  geom_point()
+
+```
+
+Briefly describe the relationship between carat and price: The higher the carat, the higher the price.
+
+```{r Task 4}
+ggplot(data=diamonddata, aes(x=carat, y=price, color=cut)) +
+  geom_point()
+```
+
+Briefly describe the relationship between carat, price, and cut: The relationship seems similar to the last, but after adding cut, it seems like you can get a decent cut without making the price too high - as long as the carat number remains lower. So, it seems like carat still is the main reason price goes up.
+
+```{r Task 5}
+diamondplot <- ggplot(data=diamonddata, aes(x=carat, y=price, color=cut)) +
+  geom_point()
+diamondplot + facet_grid(. ~ color)
+```
+
+Briefly describe the relationship between carat, price, and cut after faceting the plot by color: It seems that to get the most ideal cut, the most common color is G. The prices still rise as the color is clearer (better) and the carat number is higher. 
+
+```{r Task 6}
+library(readr)
+InventoryData_1_ <- read_csv("InventoryData (1).csv")
+View(InventoryData_1_)
+```
+
+```{r Task 7}
+inventoryA <- filter(InventoryData_1_, Supplier == "A")
+```
+
+How many rows are in the new data frame?: 3695 observations (rows) are in this new data frame.
+
+```{r Task 8}
+inventoryA = mutate(inventoryA, OnHandRatio = `On Hand` / `Annual Demand`)
+```
+
+What does the code above show? It uses the mutate function which allows to rename or change a variable in the data set - so it "renamed" the name of the columns that were listed in the code. 
+
+```{r Task 9}
+avg_cost <- summarise_at(group_by(inventoryA, `Cost per Unit ($)`), vars(`Item SKU`), funs(mean(.,na.rm=TRUE)))
+
+```
+Task 10: My first experience with R was in my 2nd fall session in 2021 with Professor Cummings. He was helpful in answering my questions. It was not the specific topics I had a challenge with, but the error throwing. I wish we had learned more about what the errors mean when we get them. So I would say when coding in R, that is what I struggle with the most.

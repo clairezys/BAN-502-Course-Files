@@ -1,0 +1,61 @@
+---
+output:
+  word_document: default
+  html_document: default
+editor_options:
+  chunk_output_type: console
+---
+### Claire Alt
+### Module 2 Assignment 1
+
+```{r}
+library(tidyverse)
+library(lubridate)
+library(readr)
+bike <- read_csv("bike_cleaned.csv")
+```
+
+```{r Task 1}
+bike = bike %>% mutate(dteday = mdy(dteday)) 
+bike = bike %>% mutate_if(is.character,as.factor)
+```
+
+```{r Task 2}
+cor(bike$hum, bike$count)
+cor(bike$atemp, bike$count)
+cor(bike$temp, bike$count)
+```
+
+Task 2 answer: After computing the correlation with the quantitative variables, it appears that the best correlation is the temp to the count.
+
+```{r Task 3}
+ggplot(bike,aes(x=hum,y=count)) + geom_boxplot(aes(group = 1)) + theme_bw()
+
+ggplot(bike,aes(x=atemp,y=count)) + geom_boxplot(aes(group = 1)) + theme_bw()
+
+
+ggplot(bike,aes(x=temp,y=count)) + geom_boxplot(aes(group = 1)) + theme_bw()
+
+```
+
+Task 3: I believe that all of the variable affect the Count variable in some way, but the temp affects it the most. Simply because, with the colder or warmer it is outside - the more or fewer bikes people will be renting.
+
+```{r Task 4}
+ggplot(bike,aes(x=temp,y=count)) +
+  geom_point()
+```
+Task 4: I used a scatter plot to plot the regression/correlation between Count and Temp. As you can see, there is an increase, as the temperature goes up, in the count of bikes being rented. Of course, if the temperature gets too hot, people will likely want ot stay inside - hence the decrease of bikes being rented.
+
+```{r Task 5}
+model1 <- lm(count ~ temp + atemp + hum + windspeed, data = bike)
+summary (model1)
+```
+
+Task 5 and Task 6: It seems that the most significant here is the Hum variable, to count. However, it does not seem that temp is that significant - so I was wrong in my original prediction. Referring to the multicollinearity of the model, it seems that Hum and Windspeed are the most inter correlated of the variables, to count.
+
+```{r Task 7}
+model1 <- lm(count ~ atemp + hum + windspeed, data = bike)
+summary (model1)
+```
+
+Task 7: I got rid of the "temp" variable, because it did not show much significance. Due to this change, the model shows a higher significance and coorelation in the three variables: Atemp, Hum, and Windspeed. 
